@@ -25,7 +25,7 @@ export default function Main() {
         }
     }, [city, unit]);
 
-    const API_KEY = '019da0530bd3c89aff2248126daf5b30';
+    const API_KEY = '019da0530bd3c89aff2248126daf5b30'; //API_KEY
 
     const fetchWeatherData = async (city, unit) => {
         let data;

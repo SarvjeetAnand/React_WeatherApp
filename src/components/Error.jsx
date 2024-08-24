@@ -1,3 +1,6 @@
+
+// This Component For Showing Error Massasge in Error Massasge Box.
+
 import React,{useState} from 'react';
 import './error.css';
 

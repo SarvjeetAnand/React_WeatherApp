@@ -2,8 +2,9 @@ import React from 'react';
 import Main from './components/Main';
 import "./App.css";
 
-const App = () => {
+export default function App(){
 
+// Returing Main Component
 
   return (
     <>
@@ -12,4 +13,3 @@ const App = () => {
   );
 };
 
-export default App;

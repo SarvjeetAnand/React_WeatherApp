@@ -9,14 +9,20 @@ import axios from 'axios';
 import Error from './Error';
 
 
+// Main function
 
 export default function Main() {
+
+    // Defined USeStates variables for funtions updations.
+
     const [city, setCity] = useState('');
     const [cityInput, setCityInput] = useState('');
     const [weatherData, setWeatherData] = useState(null);
     const [forecastData, setForecastData] = useState([]);
     const [unit, setUnit] = useState('metric');
-    let [error, setError] = useState(false);
+    const [error, setError] = useState(false);
+
+    // Defined useEffect for fetching data & updating the DOM
 
     useEffect(() => {
         if (city) {
@@ -25,7 +31,9 @@ export default function Main() {
         }
     }, [city, unit]);
 
-    const API_KEY = '019da0530bd3c89aff2248126daf5b30'; //API_KEY
+    const API_KEY = '019da0530bd3c89aff2248126daf5b30'; //OpenWeather API_KEY
+
+    // Fetch Current Weather Data from Openweather API using Asynchronous function
 
     const fetchWeatherData = async (city, unit) => {
         let data;
@@ -33,7 +41,8 @@ export default function Main() {
 
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${API_KEY}`);
             data = await response.json();
-            console.log(data);
+
+            // Fetching Important Data from API
 
             let result = {
                 city: city,
@@ -53,28 +62,21 @@ export default function Main() {
             return result;
 
         } catch (error) {
-
             setError(true);
-
             return data;
         }
-
-
-
     };
+
+    // Fetching 5 day Forecast Data from OpenWeather API using asynchronous function and Axios.
 
     const fetchForecastData = async (city, unit) => {
 
         try {
             axios
                 .get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${API_KEY}`)
-                .then((response) => {
-                    let data = response.data.list.filter((sdg) =>
-                        sdg.dt_txt.includes("18:00:00")
-                    );
-
-
-                    setForecastData(data);
+                .then(response => response.json())
+                .then(data => {
+                    setForecastData(data.list);
                 })
 
         } catch (error) {
@@ -82,6 +84,32 @@ export default function Main() {
         }
 
     };
+
+    // UseEffect For Average Temparature
+
+    useEffect(() => {
+        if (forecastData.length > 0) {
+            calculateAverageTemp();
+        }
+    }, [forecastData]);
+
+    // Fucntion for Calculating Average Temparature of 5 days forecast.
+
+    const calculateAverageTemp = () => {
+        let totalTemp = 0;
+        let count = 0;
+
+        forecastData.forEach(entry => {
+            totalTemp += entry.main.temp;
+            count += 1;
+        });
+
+        const average = totalTemp / count;
+        setAverageTemp(average.toFixed(2));
+    };
+
+
+    // Handle City Submittion and error.
 
     const handleCitySubmit = (e) => {
         e.preventDefault();
@@ -96,15 +124,22 @@ export default function Main() {
             });
     };
 
+    // Handle Event
+
     let handleChange = (event) => {
         setCityInput(event.target.value);
     }
 
 
+    // For Search Box and returns Anothers Components
+
     return (
         <div className="app">
             <div className="app-content">
                 <div className='SearchBox'>
+
+                    {/* Form for Search Box */}
+
                     <form onSubmit={handleCitySubmit}>
                         <h1 style={{ textAlign: "center" }}>Check Weather</h1>
 
@@ -113,10 +148,22 @@ export default function Main() {
                         <br />
                         <Button variant="contained" type='submit' >Search</Button>
                     </form>
-                    {error && <Error/>}
+
+                    {/* Error Component for ERROR Handling */}
+
+                    {error && <Error />}
+
+                    {/* Toggle Component For Toggle Fahrenheit and Celsius */}
+
                     <UnitToggle unit={unit} setUnit={setUnit} />
+
+                    {/* Weather Data Component for current Weather */}
+
                     {weatherData && <WeatherDetails {...weatherData} unit={unit} />}
                 </div>
+
+                {/* Forecast Data Component For 5 Days forecast */}
+
                 {forecastData && <WeatherForecast forecastData={forecastData} unit={unit} />}
             </div>
         </div >

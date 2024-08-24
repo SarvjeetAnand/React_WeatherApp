@@ -1,3 +1,5 @@
+// This component for Fahrenheit and Celsius UnitToggle.
+
 import React from 'react';
 
 export default function UnitToggle({ unit, setUnit }){

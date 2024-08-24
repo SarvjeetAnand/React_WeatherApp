@@ -1,3 +1,6 @@
+
+/* Stayling For Error Massage Box for Desktop as well as Mobile Phones. */
+
 body, html {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -34,14 +37,14 @@ body, html {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 320px;
+    width: 90%; 
+    max-width: 320px; /* Limit max width for better mobile experience */
 }
 
 .message-box h2 {
     font-size: 5vw;
     margin-bottom: 10px;
-    color: #8B0000; 
+    color: #8B0000;
     line-height: 1.2;
 }
 
@@ -59,7 +62,7 @@ body, html {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 4vw;
+    font-size: 4vw; 
     width: 100%;
     max-width: 120px;
     margin: 0 auto;
@@ -73,7 +76,7 @@ body, html {
 @media (min-width: 768px) {
     .message-box {
         padding: 20px;
-        max-width: 400px;
+        max-width: 400px; /* Max width for desktop screens */
     }
 
     .message-box h2 {

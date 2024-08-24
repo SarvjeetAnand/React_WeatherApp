@@ -1,3 +1,6 @@
+
+// This Component for 5 days forecast Data with Weather Description, icons and Dates.
+
 import React from 'react';
 
 export default function WeatherForecast ({ forecastData, unit }){

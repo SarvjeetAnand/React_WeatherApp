@@ -9,7 +9,7 @@
 ```
 npm install
 ```
-### Go to the project directory
+### Go to the project directory run the project using blow command.
 ```
 npm start
 ```

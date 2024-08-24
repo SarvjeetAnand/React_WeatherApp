@@ -67,17 +67,18 @@ export default function Main() {
         }
     };
 
-    // Fetching 5 day Forecast Data from OpenWeather API using asynchronous function and Axios.
+    // Fetching 5 day Forecast Data from OpenWeather API using asynchronous function and Axios. And calculate every day 12pm data upto 5 days becouse this API fetch 5days/3hours data.
 
     const fetchForecastData = async (city, unit) => {
 
         try {
-            axios
-                .get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${API_KEY}`)
-                .then(response => response.json())
-                .then(data => {
-                    setForecastData(data.list);
-                })
+            axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${API_KEY}`)
+            .then((response) => {
+                let data = response.data.list.filter((sdg) =>
+                    sdg.dt_txt.includes("12:00:00")
+                );
+                setForecastData(data);
+            })
 
         } catch (error) {
             setError(true);
@@ -85,28 +86,7 @@ export default function Main() {
 
     };
 
-    // UseEffect For Average Temparature
 
-    useEffect(() => {
-        if (forecastData.length > 0) {
-            calculateAverageTemp();
-        }
-    }, [forecastData]);
-
-    // Fucntion for Calculating Average Temparature of 5 days forecast.
-
-    const calculateAverageTemp = () => {
-        let totalTemp = 0;
-        let count = 0;
-
-        forecastData.forEach(entry => {
-            totalTemp += entry.main.temp;
-            count += 1;
-        });
-
-        const average = totalTemp / count;
-        setAverageTemp(average.toFixed(2));
-    };
 
 
     // Handle City Submittion and error.
